@@ -4,6 +4,13 @@ MAINTAINER StudioEtrange <nomorgan@gmail.com>
 
 # DEBIAN packages : SICKRAGE dependencies install ----------
 RUN apt-get update \
+ 	&& DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+						apt-utils \
+	&& { \
+		echo debconf debconf/frontend select Noninteractive; \
+		echo mysql-server mysql-server/root_password password 'root'; \
+		echo .mysql-server mysql-server/root_password_again password 'root'; \
+	} | debconf-set-selections \
 	&& DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
 						gccxml \
 						autoconf \
